@@ -16,6 +16,26 @@ class Project(db.Model):
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(120), nullable=False)
     message = db.Column(db.Text, nullable=False)
     is_read = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+class Profile(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    headline = db.Column(db.String(150))
+    about = db.Column(db.Text)
+    education = db.Column(db.Text)
+    photo = db.Column(db.String(120), default='default-profile.jpg')
+    email = db.Column(db.String(120))
+    github = db.Column(db.String(200))
+    linkedin = db.Column(db.String(200))
+
+
+class Skill(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    level = db.Column(db.String(50))
+    profile_id = db.Column(db.Integer, db.ForeignKey('profile.id'))
