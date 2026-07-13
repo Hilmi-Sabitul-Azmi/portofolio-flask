@@ -12,6 +12,26 @@ db.init_app(app)
 
 from models import Project, Message, Profile, Skill
 
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+
+@app.route('/about')
+def about():
+    return "Halaman About"
+
+
+@app.route('/portfolio')
+def portfolio():
+    return "Halaman Portofolio"
+
+
+@app.route('/contact')
+def contact():
+    return "Halaman Kontak" \
+
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
