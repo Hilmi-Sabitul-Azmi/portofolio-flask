@@ -10,7 +10,7 @@ app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
 
 db.init_app(app)
 
-from models import Project, Message, Profile, Skill
+from models import Project, Message, Profile, Skill, Education
 
 @app.route('/')
 def home():
@@ -19,12 +19,22 @@ def home():
 
 @app.route('/about')
 def about():
-    return "Halaman About"
+    profile = Profile.query.first()
+    skills = Skill.query.all()
+    educations = Education.query.all()
+    return render_template('about.html', profile=profile, skills=skills, educations=educations)
 
 
 @app.route('/portfolio')
 def portfolio():
-    return "Halaman Portofolio"
+    projects = Project.query.all()
+    return render_template('portfolio.html', projects=projects)
+
+
+@app.route('/project/<int:id>')
+def project_detail(id):
+    project = Project.query.get_or_404(id)
+    return render_template('project_detail.html', project=project)
 
 
 @app.route('/contact')
