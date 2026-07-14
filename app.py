@@ -82,6 +82,34 @@ def dashboard_index():
     return f"Selamat datang di dashboard, {session['user']}!"
 
 
+@app.route('/dashboard/messages')
+def dashboard_messages():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    messages = Message.query.order_by(Message.created_at.desc()).all()
+    return render_template('dashboard/messages.html', messages=messages)
+
+
+@app.route('/dashboard/messages/read/<int:id>', methods=['POST'])
+def mark_message_read(id):
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    message = Message.query.get_or_404(id)
+    message.is_read =True
+    db.session.commit()
+    return redirect(url_for('dashboard_messages'))
+
+
+@app.route('/dashboard/messages/delete/<int:id>', methods=['POST'])
+def delete_message(id):
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    message = Message.query.get_or_404(id)
+    db.session.delete(message)
+    db.session.commit()
+    return redirect(url_for('dashboard_messages'))
+
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
