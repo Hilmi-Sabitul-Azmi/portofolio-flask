@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+    <h1>Tentang Saya</h1>
+    <p><strong>{{ profile.name }}</strong> - {{ profile.headline }}</p>
+    <P>{{ profile.about }}</P>
+
+    <h2>Pendidikan</h2>
+    <ul>
+        {% for edu in educations %}
+            <li><strong>{{ edu.institution }}</strong> - {{ edu.degree }} 
+                ({{ edu.year_start }} - {{ edu.year_end }})
+            </li>
+        {% else %}
+            <li>Belum ada riwayat pendidikan ditambahkan.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Skill</h2>
+    <ul>
+        {% for skill in skills %}
+            <li>{{ skill.name }} ({{ skill.level }})</li>
+        {% else %}
+            <li>Belum ada skill ditambahkan.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
