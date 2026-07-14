@@ -54,6 +54,34 @@ def contact():
     return render_template('contact.html', profile=profile)
 
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        if username == 'admin' and password == 'admin123@':
+            session['user'] = username
+            return redirect(url_for('dashboard_index'))
+        else:
+            return render_template('dashboard/login.html', error='Username atau password salah')
+        
+    return render_template('dashboard/login.html')
+
+
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    return redirect(url_for('login'))
+
+
+@app.route('/dashboard')
+def dashboard_index():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    return f"Selamat datang di dashboard, {session['user']}!"
+
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
