@@ -110,6 +110,32 @@ def delete_message(id):
     return redirect(url_for('dashboard_messages'))
 
 
+@app.route('/dashboard/projects')
+def dashboard_projects():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    projects = Project.query.order_by(Project.created_at.desc()).all()
+    return render_template('dashboard/projects.html', projects=projects)
+
+
+@app.route('/dashboard/projects/add')
+def add_project():
+    return "Form tambah proyek (belum jadi)"
+
+@app.route('/dashboard/projects/edit/<int:id>')
+def edit_project(id):
+    return f"Form edit proyek id={id} (belum jadi)"
+
+@app.route('/dashboard/projects/delete/<int:id>', methods=['POST'])
+def delete_project(id):
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    project = Project.query.get_or_404(id)
+    db.session.delete(project)
+    db.session.commit()
+    return redirect(url_for('dashboard_projects'))
+
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
