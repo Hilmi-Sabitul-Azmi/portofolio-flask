@@ -37,9 +37,21 @@ def project_detail(id):
     return render_template('project_detail.html', project=project)
 
 
-@app.route('/contact')
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
-    return "Halaman Kontak" \
+    profile = Profile.query.first()
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        message_text = request.form.get('message')
+
+        new_message = Message(name=name, email=email, message=message_text)
+        db.session.add(new_message)
+        db.session.commit()
+
+        return redirect(url_for('contact'))
+    
+    return render_template('contact.html', profile=profile)
 
 
 if __name__ == '__main__':
