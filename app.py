@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+from werkzeug.utils import secure_filename
 from extensions import db
 import os
 
@@ -11,6 +12,13 @@ app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
 db.init_app(app)
 
 from models import Project, Message, Profile, Skill, Education
+
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
+
+def allowed_file(filename):
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 @app.route('/')
 def home():
@@ -118,9 +126,39 @@ def dashboard_projects():
     return render_template('dashboard/projects.html', projects=projects)
 
 
-@app.route('/dashboard/projects/add')
+@app.route('/dashboard/projects/add', methods=['GET', 'POST'])
 def add_project():
-    return "Form tambah proyek (belum jadi)"
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    
+    if request.method == 'POST':
+        title = request.form.get('title')
+        description = request.form.get('description')
+        technologies = request.form.get('technologies')
+        github_link = request.form.get('github_link')
+        live_link = request.form.get('live_link')
+
+        file = request.files.get('image')
+        img_name = 'default.jpg'
+        if file and file.filename != '' and allowed_file(file.filename):
+            img_name = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], img_name))
+
+        new_project = Project(
+            title=title,
+            description=description,
+            technologies=technologies,
+            image_file=img_name,
+            github_link=github_link,
+            live_link=live_link
+        )
+        db.session.add(new_project)
+        db.session.commit()
+
+        return redirect(url_for('dashboard_projects'))
+    
+    return render_template('dashboard/add_project.html')
+
 
 @app.route('/dashboard/projects/edit/<int:id>')
 def edit_project(id):

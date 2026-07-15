@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Tambah Proyek{% endblock %}
+
+{% block content %}
+<h1>Tambah Proyek Baru</h1>
+
+<form method="POST" enctype="multipart/form-data">
+    <label for="title">Judul Proyek</label>
+    <input type="text" id="title" name="title" required>
+
+    <label for="description">Deskripsi</label>
+    <textarea id="description" name="description" required></textarea>
+
+    <label for="technologies">Teknologi (pisah dengan koma)</label>
+    <input type="text" id="technologies" name="technologies" placeholder="Python, Flask, SQLite">
+
+    <label for="github_link">Link Github</label>
+    <input type="url" id="github_link" name="github_link">
+
+    <label for="live_link">Link Website Live</label>
+    <input type="url" id="live_link" name="live_link">
+
+    <label for="image">Gambar Proyek</label>
+    <input type="file" id="image" name="image" accept="image/*">
+
+    <button type="submit">Simpan Proyek</button>
+</form>
+
+<a href="{{ url_for('dashboard_projects') }}">← Kembali ke Daftar Proyek</a>
+{% endblock %}
