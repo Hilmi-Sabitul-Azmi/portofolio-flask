@@ -160,9 +160,31 @@ def add_project():
     return render_template('dashboard/add_project.html')
 
 
-@app.route('/dashboard/projects/edit/<int:id>')
+@app.route('/dashboard/projects/edit/<int:id>', methods=['Get', 'POST'])
 def edit_project(id):
-    return f"Form edit proyek id={id} (belum jadi)"
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    
+    project = Project.query.get_or_404(id)
+
+    if request.method == 'POST':
+        project.title = request.form.get('title')
+        project.description = request.form.get('description')
+        project.technologies = request.form.get('technologies')
+        project.github_link = request.form.get('github_link')
+        project.live_link = request.form.get('live_link')
+
+        file = request.files.get('image')
+        if file and file.filename != '' and allowed_file(file.filename):
+            img_name = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], img_name))
+            project.image_file = img_name
+
+        db.session.commit()
+        return redirect(url_for('dashboard_projects'))
+    
+    return render_template('dashboard/edit_project.html', project=project)
+
 
 @app.route('/dashboard/projects/delete/<int:id>', methods=['POST'])
 def delete_project(id):
