@@ -203,6 +203,62 @@ def delete_project(id):
     return redirect(url_for('dashboard_projects'))
 
 
+@app.route('/dashboard/profile', methods=['GET', 'POST'])
+def dashboard_profile():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    
+    profile = Profile.query.first()
+
+    if request.method == 'POST':
+        profile.name = request.form.get('name')
+        profile.headline = request.form.get('headline')
+        profile.about = request.form.get('about')
+        profile.email = request.form.get('email')
+        profile.github = request.form.get('github')
+        profile.linkedin = request.form.get('linkedin')
+
+        file = request.files.get('photo')
+        if file and file.filename != '' and allowed_file(file.filename):
+            img_name = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], img_name))
+            profile.photo = img_name
+
+        db.session.commit()
+        return redirect(url_for('dashboard_profile'))
+    
+    skills = Skill.query.all()
+    return render_template('dashboard/profile.html', profile=profile, skills=skills)
+
+
+@app.route('/dashboard/profile/skill/add', methods=['POST'])
+def add_skill():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    
+    profile = Profile.query.first()
+    name = request.form.get('skill_name')
+    level = request.form.get('skill_level')
+
+    new_skill = Skill(name=name, level=level, profile_id=profile.id)
+    db.session.add(new_skill)
+    db.session.commit()
+
+    return redirect(url_for('dashboard_profile'))
+
+
+@app.route('/dashboard/profile/skill/delete/<int:id>', methods=['POST'])
+def delete_skill(id):
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    
+    skill = Skill.query.get_or_404(id)
+    db.session.delete(skill)
+    db.session.commit()
+
+    return redirect(url_for('dashboard_profile'))
+
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()

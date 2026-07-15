@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Kelola Profil{% endblock %}
+
+{% block content %}
+<h1>Kelola Profil</h1>
+
+<form method="POST" enctype="multipart/form-data">
+    <label for="name">Nama</label>
+    <input type="text" id="name" name="name" value="{{ profile.name }}" required>
+
+    <label for="headline">Headline</label>
+    <input type="text" id="headline" name="headline" value="{{ profile.headline }}">
+
+    <label for="about">About</label>
+    <textarea id="about" name="about">{{ profile.about }}</textarea>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" value="{{ profile.email }}">
+
+    <label for="github">Link Github</label>
+    <input type="url" id="github" name="github" value="{{ profile.github }}">
+
+    <label for="linkedin">Link Linkedin</label>
+    <input type="url" id="linkedin" name="linkedin" value="{{ profile.linkedin }}">
+
+    <p>Foto saat ini:</p>
+    {% if profile.photo %}
+        <img src="{{ url_for('static', filename='uploads/' + profile.photo) }}" width="150">
+    {% else %}
+    <p>Belum ada foto profil.</p>
+    {% endif %}
+
+    <label for="photo">Ganti Foto (opsional)</label>
+    <input type="file" id="photo" name="photo" accept="image/*">
+
+    <button type="submit">Simpan Profil</button>
+</form>
+
+<hr>
+
+<h2>Kelola Skill</h2>
+
+<ul>
+    {% for skill in skills %}
+        <li>
+            {{ skill.name }} ({{ skill.level }})
+            <form method="POST" action="{{ url_for('delete_skill', id=skill.id) }}" style="display: inline;">
+                <button type="submit">Hapus</button>
+            </form>
+        </li>
+    {% else %}
+        <li>Belum ada skill.</li>
+    {% endfor %}
+</ul>
+
+<h3>Tambah Skill Baru</h3>
+<form method="POST" action="{{ url_for('add_skill') }}">
+    <label for="skill_name">Nama Skill</label>
+    <input type="text" id="skill_name" name="skill_name" required>
+
+    <label for="skill_level">Level</label>
+    <input type="text" id="skill_level" name="skill_level" placeholder="Menengah / Pemula / Mahir">
+
+    <button type="submit">Tambah Skill</button>
+</form>
+{% endblock %}
