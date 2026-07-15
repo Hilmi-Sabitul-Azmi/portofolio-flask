@@ -87,7 +87,14 @@ def logout():
 def dashboard_index():
     if 'user' not in session:
         return redirect(url_for('login'))
-    return f"Selamat datang di dashboard, {session['user']}!"
+    total_projects = Project.query.count()
+    unread_messages = Message.query.filter_by(is_read=False).count()
+
+    return render_template(
+        'dashboard/index.html',
+        total_projects=total_projects,
+        unread_messages=unread_messages
+    )
 
 
 @app.route('/dashboard/messages')
