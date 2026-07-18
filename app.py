@@ -234,7 +234,8 @@ def dashboard_profile():
     
     skills = Skill.query.all()
     certificates = Certificate.query.all()
-    return render_template('dashboard/profile.html', profile=profile, skills=skills, certificates=certificates)
+    educations = Education.query.all()
+    return render_template('dashboard/profile.html', profile=profile, skills=skills, certificates=certificates, educations=educations)
 
 
 @app.route('/dashboard/profile/skill/add', methods=['POST'])
@@ -289,6 +290,42 @@ def delete_certificate(id):
 
     cert = Certificate.query.get_or_404(id)
     db.session.delete(cert)
+    db.session.commit()
+
+    return redirect(url_for('dashboard_profile'))
+
+
+@app.route('/dashboard/profile/education/add', methods=['POST'])
+def add_education():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    profile = Profile.query.first()
+    institution = request.form.get('edu_institution')
+    degree = request.form.get('edu_degree')
+    year_start = request.form.get('edu_year_start')
+    year_end = request.form.get('edu_year_end')
+
+    new_edu = Education(
+        institution=institution,
+        degree=degree,
+        year_start=year_start,
+        year_end=year_end,
+        profile_id=profile.id
+    )
+    db.session.add(new_edu)
+    db.session.commit()
+
+    return redirect(url_for('dashboard_profile'))
+
+
+@app.route('/dashboard/profile/education/delete/<int:id>', methods=['POST'])
+def delete_education(id):
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    edu = Education.query.get_or_404(id)
+    db.session.delete(edu)
     db.session.commit()
 
     return redirect(url_for('dashboard_profile'))

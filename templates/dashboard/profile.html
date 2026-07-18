@@ -37,6 +37,38 @@
     <button type="submit">Simpan Profil</button>
 </form>
 
+<h2>Kelola Pendidikan</h2>
+
+<ul>
+{% for edu in educations %}
+    <li>
+        {{ edu.institution }} — {{ edu.degree }} ({{ edu.year_start }} - {{ edu.year_end }})
+        <form method="POST" action="{{ url_for('delete_education', id=edu.id) }}" style="display:inline;" class="delete-form">
+            <button type="submit">Hapus</button>
+        </form>
+    </li>
+{% else %}
+    <li>Belum ada riwayat pendidikan.</li>
+{% endfor %}
+</ul>
+
+<h3>Tambah Riwayat Pendidikan</h3>
+<form method="POST" action="{{ url_for('add_education') }}">
+    <label for="edu_institution">Institusi</label>
+    <input type="text" id="edu_institution" name="edu_institution" required>
+
+    <label for="edu_degree">Jurusan/Jenjang</label>
+    <input type="text" id="edu_degree" name="edu_degree">
+
+    <label for="edu_year_start">Tahun Mulai</label>
+    <input type="text" id="edu_year_start" name="edu_year_start" placeholder="2023">
+
+    <label for="edu_year_end">Tahun Selesai</label>
+    <input type="text" id="edu_year_end" name="edu_year_end" placeholder="Sekarang">
+
+    <button type="submit">Tambah Pendidikan</button>
+</form>
+
 <hr>
 
 <h2>Kelola Skill</h2>
