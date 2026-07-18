@@ -3,6 +3,21 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    <h1>Halo, saya Hilmi Sabitul Azmi</h1>
-    <p>Ini halaman Home sementara</p>
+<section class="hero">
+    {% if profile and profile.photo %}
+    <img src="{{ url_for('static', filename='uploads/' + profile.photo) }}" alt="{{ profile.name }}" class="hero-photo">
+    {% endif %}
+
+    <div class="hero-text">
+        <p class="hero-eyebrow">Halo, perkenalkan</p>
+        <h1>{{ profile.name if profile else 'Nama Anda' }}</h1>
+        <p class="hero-headline">{{ profile.headline if profile else 'Headline profesi Anda' }}</p>
+        <p class="hero-about">{{ profile.about if profile else 'Ringkasan singkat tentang diri Anda.' }}</p>
+
+        <div class="hero-buttons">
+            <a href="{{ url_for('portfolio') }}" class="btn-primary">Lihat Portofolio</a>
+            <a href="{{ url_for('contact') }}" class="btn-secondary">Hubungi Saya</a>
+        </div>
+    </div>
+</section>
 {% endblock %}

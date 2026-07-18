@@ -11,7 +11,7 @@ app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
 
 db.init_app(app)
 
-from models import Project, Message, Profile, Skill, Education
+from models import Project, Message, Profile, Skill, Education, Certificate
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
 
@@ -22,7 +22,8 @@ def allowed_file(filename):
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    profile = Profile.query.first()
+    return render_template('index.html', profile=profile)
 
 
 @app.route('/about')
@@ -30,7 +31,8 @@ def about():
     profile = Profile.query.first()
     skills = Skill.query.all()
     educations = Education.query.all()
-    return render_template('about.html', profile=profile, skills=skills, educations=educations)
+    certificates = Certificate.query.all()
+    return render_template('about.html', profile=profile, skills=skills, educations=educations, certificates=certificates)
 
 
 @app.route('/portfolio')
@@ -87,13 +89,16 @@ def logout():
 def dashboard_index():
     if 'user' not in session:
         return redirect(url_for('login'))
+    
     total_projects = Project.query.count()
     unread_messages = Message.query.filter_by(is_read=False).count()
+    recent_messages = Message.query.order_by(Message.created_at.desc()).limit(3).all()
 
     return render_template(
         'dashboard/index.html',
         total_projects=total_projects,
-        unread_messages=unread_messages
+        unread_messages=unread_messages,
+        recent_messages=recent_messages
     )
 
 
@@ -228,7 +233,8 @@ def dashboard_profile():
         return redirect(url_for('dashboard_profile'))
     
     skills = Skill.query.all()
-    return render_template('dashboard/profile.html', profile=profile, skills=skills)
+    certificates = Certificate.query.all()
+    return render_template('dashboard/profile.html', profile=profile, skills=skills, certificates=certificates)
 
 
 @app.route('/dashboard/profile/skill/add', methods=['POST'])
@@ -254,6 +260,35 @@ def delete_skill(id):
     
     skill = Skill.query.get_or_404(id)
     db.session.delete(skill)
+    db.session.commit()
+
+    return redirect(url_for('dashboard_profile'))
+
+
+@app.route('/dashboard/profile/certificate/add', methods=['POST'])
+def add_certificate():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    profile = Profile.query.first()
+    title = request.form.get('cert_title')
+    issuer = request.form.get('cert_issuer')
+    year = request.form.get('cert_year')
+
+    new_cert = Certificate(title=title, issuer=issuer, year=year, profile_id=profile.id)
+    db.session.add(new_cert)
+    db.session.commit()
+
+    return redirect(url_for('dashboard_profile'))
+
+
+@app.route('/dashboard/profile/certificate/delete/<int:id>', methods=['POST'])
+def delete_certificate(id):
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    cert = Certificate.query.get_or_404(id)
+    db.session.delete(cert)
     db.session.commit()
 
     return redirect(url_for('dashboard_profile'))

@@ -1,0 +1,441 @@
+/* ===================================
+   RESET & DASAR
+   =================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background-color: #0d1b2a;
+    color: #e0e6ed;
+    line-height: 1.6;
+}
+
+/* Batasi semua gambar supaya tidak pernah melebihi lebar wadahnya */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+h1, h2, h3, nav a, .logo {
+    font-family: 'JetBrains Mono', 'Consolas', monospace;
+}
+
+a {
+    color: #f4a259;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ===================================
+   NAVBAR
+   =================================== */
+nav {
+    display: flex;
+    gap: 2rem;
+    padding: 1.25rem 2rem;
+    background-color: #1b2a3d;
+    border-bottom: 2px solid #f4a259;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+nav a {
+    color: #e0e6ed;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+nav a:hover {
+    color: #f4a259;
+    text-decoration: none;
+}
+
+/* ===================================
+   LAYOUT UTAMA
+   =================================== */
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    min-height: 70vh;
+}
+
+h1 {
+    font-size: 2rem;
+    color: #f4a259;
+    margin-bottom: 1rem;
+}
+
+/* Prefix ala komentar kode di depan judul section */
+h2::before {
+    content: "// ";
+    color: #8b98a8;
+}
+
+h2 {
+    font-size: 1.4rem;
+    margin: 2rem 0 1rem;
+    color: #e0e6ed;
+}
+
+p {
+    color: #c3ccd6;
+    margin-bottom: 1rem;
+}
+
+/* ===================================
+   FORM (dipakai di Kontak, Login, Dashboard)
+   =================================== */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    max-width: 500px;
+    margin-bottom: 2rem;
+}
+
+label {
+    font-size: 0.85rem;
+    color: #8b98a8;
+    margin-top: 0.6rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+input[type="file"],
+textarea {
+    background-color: #1b2a3d;
+    border: 1px solid #34465e;
+    border-radius: 4px;
+    padding: 0.6rem 0.8rem;
+    color: #e0e6ed;
+    font-family: inherit;
+    font-size: 0.95rem;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #f4a259;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+button {
+    background-color: #f4a259;
+    color: #0d1b2a;
+    border: none;
+    border-radius: 4px;
+    padding: 0.6rem 1.2rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    width: fit-content;
+    transition: background-color 0.15s ease;
+}
+
+button:hover {
+    background-color: #ffb673;
+}
+
+/* ===================================
+   HERO SECTION (Halaman Home)
+   =================================== */
+.hero {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    padding: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.hero-photo {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #f4a259;
+    flex-shrink: 0;
+}
+
+.hero-text {
+    flex: 1;
+    min-width: 280px;
+}
+
+.hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    color: #f4a259;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.3rem;
+}
+
+.hero-text h1 {
+    margin-bottom: 0.4rem;
+}
+
+.hero-headline {
+    color: #8b98a8;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.hero-about {
+    max-width: 500px;
+    margin-bottom: 1.5rem;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn-primary, .btn-secondary {
+    display: inline-block;
+    padding: 0.7rem 1.4rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.btn-primary {
+    background-color: #f4a259;
+    color: #0d1b2a;
+}
+
+.btn-primary:hover {
+    background-color: #ffb673;
+    text-decoration: none;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: #f4a259;
+    border: 1px solid #f4a259;
+}
+
+.btn-secondary:hover {
+    background-color: #1b2a3d;
+    text-decoration: none;
+}
+
+/* ===================================
+   GAMBAR DETAIL PROYEK & FOTO PROFIL
+   =================================== */
+.detail-image {
+    max-width: 500px;
+    border-radius: 8px;
+    border: 1px solid #34465e;
+    margin-bottom: 1.5rem;
+}
+
+.profile-photo {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #f4a259;
+}
+
+/* ===================================
+   KARTU PROYEK (Portofolio)
+   =================================== */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.project-card {
+    background-color: #1b2a3d;
+    border: 1px solid #34465e;
+    border-radius: 6px;
+    padding: 1.25rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.project-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 0.8rem;
+    background-color: #0d1b2a;
+}
+
+.project-card h3 {
+    color: #f4a259;
+    margin-bottom: 0.4rem;
+    font-size: 1.1rem;
+}
+
+.tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0.6rem 0;
+}
+
+.tag {
+    background-color: #0d1b2a;
+    border: 1px solid #34465e;
+    color: #8b98a8;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+}
+
+/* ===================================
+   DASHBOARD: STATISTIK
+   =================================== */
+.dashboard-stats {
+    display: flex;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.stat-card {
+    background-color: #1b2a3d;
+    border: 1px solid #34465e;
+    border-left: 4px solid #f4a259;
+    border-radius: 6px;
+    padding: 1.25rem 1.5rem;
+    min-width: 160px;
+}
+
+.stat-card h2 {
+    font-size: 2rem;
+    color: #f4a259;
+    margin: 0;
+}
+
+.stat-card h2::before {
+    content: none;
+}
+
+.stat-card p {
+    color: #8b98a8;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+/* ===================================
+   TABEL (Dashboard: Proyek, Pesan)
+   =================================== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+th, td {
+    text-align: left;
+    padding: 0.7rem;
+    border-bottom: 1px solid #34465e;
+    font-size: 0.9rem;
+}
+
+th {
+    color: #8b98a8;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ===================================
+   FOOTER
+   =================================== */
+footer {
+    text-align: center;
+    padding: 1.5rem;
+    color: #8b98a8;
+    font-size: 0.85rem;
+    border-top: 1px solid #34465e;
+}
+
+/* ===================================
+   SUB-NAVBAR DASHBOARD
+   =================================== */
+.dashboard-subnav {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    background-color: #1b2a3d;
+    border: 1px solid #34465e;
+    border-radius: 6px;
+    padding: 0.8rem 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.dashboard-subnav a {
+    color: #8b98a8;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: color 0.15s ease;
+}
+
+.dashboard-subnav a:hover {
+    color: #f4a259;
+    text-decoration: none;
+}
+
+.subnav-logout {
+    margin-left: auto;
+    color: #e57373 !important;
+}
+
+/* ===================================
+   PESAN TERBARU
+   =================================== */
+.recent-messages {
+    list-style: none;
+    margin: 1rem 0;
+}
+
+.recent-messages li {
+    background-color: #1b2a3d;
+    border: 1px solid #34465e;
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.msg-preview {
+    color: #8b98a8;
+    font-size: 0.85rem;
+    flex: 1;
+}
+
+.badge-new {
+    background-color: #f4a259;
+    color: #0d1b2a;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    border-radius: 10px;
+}

@@ -47,3 +47,12 @@ class Education(db.Model):
     year_start = db.Column(db.String(50))
     year_end = db.Column(db.String(50))
     profile_id = db.Column(db.Integer, db.ForeignKey('profile.id'))
+
+
+class Certificate(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(150), nullable=False)
+    issuer = db.Column(db.String(150))
+    year = db.Column(db.String(10))
+    credential_file = db.Column(db.String(120))
+    profile_id = db.Column(db.Integer, db.ForeignKey('profile.id'))

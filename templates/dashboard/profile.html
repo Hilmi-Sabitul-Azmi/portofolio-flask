@@ -1,8 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'dashboard/dashboard_base.html' %}
 
 {% block title %}Kelola Profil{% endblock %}
 
-{% block content %}
+{% block dashboard_content %}
 <h1>Kelola Profil</h1>
 
 <form method="POST" enctype="multipart/form-data">
@@ -26,7 +26,7 @@
 
     <p>Foto saat ini:</p>
     {% if profile.photo %}
-        <img src="{{ url_for('static', filename='uploads/' + profile.photo) }}" width="150">
+        <img src="{{ url_for('static', filename='uploads/' + profile.photo) }}" width="150" class="profile-photo">
     {% else %}
     <p>Belum ada foto profil.</p>
     {% endif %}
@@ -45,7 +45,7 @@
     {% for skill in skills %}
         <li>
             {{ skill.name }} ({{ skill.level }})
-            <form method="POST" action="{{ url_for('delete_skill', id=skill.id) }}" style="display: inline;">
+            <form method="POST" action="{{ url_for('delete_skill', id=skill.id) }}" style="display: inline;" class="delete-form">
                 <button type="submit">Hapus</button>
             </form>
         </li>
@@ -63,5 +63,34 @@
     <input type="text" id="skill_level" name="skill_level" placeholder="Menengah / Pemula / Mahir">
 
     <button type="submit">Tambah Skill</button>
+</form>
+
+<h2>Kelola Sertifikasi</h2>
+
+<ul>
+{% for cert in certificates %}
+    <li>
+        {{ cert.title }} — {{ cert.issuer }} ({{ cert.year }})
+        <form method="POST" action="{{ url_for('delete_certificate', id=cert.id) }}" style="display:inline;" class="delete-form">
+            <button type="submit">Hapus</button>
+        </form>
+    </li>
+{% else %}
+    <li>Belum ada sertifikasi.</li>
+{% endfor %}
+</ul>
+
+<h3>Tambah Sertifikasi Baru</h3>
+<form method="POST" action="{{ url_for('add_certificate') }}">
+    <label for="cert_title">Nama Sertifikasi</label>
+    <input type="text" id="cert_title" name="cert_title" required>
+
+    <label for="cert_issuer">Penerbit</label>
+    <input type="text" id="cert_issuer" name="cert_issuer" placeholder="BNSP">
+
+    <label for="cert_year">Tahun</label>
+    <input type="text" id="cert_year" name="cert_year" placeholder="2025">
+
+    <button type="submit">Tambah Sertifikasi</button>
 </form>
 {% endblock %}

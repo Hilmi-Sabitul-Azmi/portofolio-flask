@@ -1,8 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'dashboard/dashboard_base.html' %}
 
 {% block title %}Dashboard{% endblock %}
 
-{% block content %}
+{% block dashboard_content %}
 <h1>Selamat datang, {{ session['user'] }}!</h1>
 
 <div class="dashboard-stats">
@@ -16,11 +16,19 @@
     </div>
 </div>
 
-<h2>Menu Cepat</h2>
-<ul>
-    <li><a href="{{ url_for('dashboard_profile') }}">Kelola Profil</a></li>
-    <li><a href="{{ url_for('dashboard_projects') }}">Kelola Proyek</a></li>
-    <li><a href="{{ url_for('dashboard_messages') }}">Kotak Masuk Pesan</a></li>
-    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+<h2>Pesan Terbaru</h2>
+{% if recent_messages %}
+<ul class="recent-messages">
+    {% for msg in recent_messages %}
+    <li>
+        <strong>{{ msg.name }}</strong>
+        <span class="msg-preview">{{ msg.message[:60] }}{% if msg.message|length > 60 %}...{% endif %}</span>
+        {% if not msg.is_read %}<span class="badge-new">Baru</span>{% endif %}
+    </li>
+    {% endfor %}
 </ul>
+<a href="{{ url_for('dashboard_messages') }}">Lihat semua pesan →</a>
+{% else %}
+<p>Belum ada pesan masuk.</p>
+{% endif %}
 {% endblock %}

@@ -26,4 +26,15 @@
             <li>Belum ada skill ditambahkan.</li>
         {% endfor %}
     </ul>
+
+    <h2>Sertifikasi</h2>
+    <ul>
+        {% for cert in certificates %}
+            <li>
+                <strong>{{ cert.title }}</strong> — {{ cert.issuer }} ({{ cert.year }})
+            </li>
+        {% else %}
+            <li>Belum ada sertifikasi ditambahkan.</li>
+        {% endfor %}
+    </ul>
 {% endblock %}

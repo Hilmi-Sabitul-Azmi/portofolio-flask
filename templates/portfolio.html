@@ -8,7 +8,7 @@
 <div class="portofolio-grid">
     {% for project in projects %}
     <div class="project-card">
-        <img scr="{{ url_for('static', filename='uploads/' + project.image_file) }}" alt="{{ project.title }}">
+        <img src="{{ url_for('static', filename='uploads/' + project.image_file) }}" alt="{{ project.title }}">
         <h3>{{ project.title }}</h3>
         <p>{{ project.description[:120] }}...</p>
         <div class="tech-tags">

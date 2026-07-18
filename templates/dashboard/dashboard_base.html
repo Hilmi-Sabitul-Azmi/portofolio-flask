@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard-subnav">
+    <a href="{{ url_for('dashboard_index') }}">Dashboard</a>
+    <a href="{{ url_for('dashboard_projects') }}">Proyek</a>
+    <a href="{{ url_for('dashboard_messages') }}">Pesan</a>
+    <a href="{{ url_for('dashboard_profile') }}">Profil</a>
+    <a href="{{ url_for('logout') }}" class="subnav-logout">Logout</a>
+</div>
+
+{% block dashboard_content %}{% endblock %}
+{% endblock %}
